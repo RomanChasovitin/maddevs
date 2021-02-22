@@ -5,12 +5,18 @@ describe('Header', () => {
   let wrapper;
 
   beforeEach(() => {
-    global.$nuxt = {
-      $route: {
-        name: '/'
+    wrapper = mount(Header, {
+      stubs: ['router-link'],
+      mocks: {
+        $nuxt: {
+          $route: {
+            path: {
+              includes: jest.fn()
+            }
+          }
+        }
       }
-    };
-    wrapper = mount(Header);
+    });
   });
 
   // ------ IMPORTANT ----- //

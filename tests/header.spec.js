@@ -18,10 +18,13 @@ describe('Header', () => {
     };
     return mountParams;
   };
-  const classes = ['main'];
-  classes.forEach(className => {
-    let element = document.createElement('div'); // Mock getElementsByClassName and addEventListener functions 
-    element.setAttribute('class', className);
+  const htmlElementsId = ['case-main-container', 'read-our-case-btn', 'case-first-section', 'case-main-container', 'case-header', 'header-logo-text'];
+  htmlElementsId.forEach(elementId => {
+    let element = document.createElement('div');
+    element.setAttribute('id', elementId);
+    element.getBoundingClientRect = jest.fn(() => ({ // Set custom value for getBoundingClientRect
+      top: 100
+    }));
     document.body.appendChild(element);
   });
 
@@ -30,6 +33,16 @@ describe('Header', () => {
     wrapper.vm.$refs = { 
       headerContainer: {
         offsetHeight: 60
+      },
+      header: {
+        style: {
+          width: 0
+        }
+      },
+      overlay: {
+        style: {
+          width: 0
+        }
       }
     };
   });
@@ -61,11 +74,6 @@ describe('Header', () => {
   });
 
   test('getScollTop set new value for data instance scrollTop', () => {
-    wrapper.vm.$data.caseMoreButton = {
-      getBoundingClientRect: jest.fn(() => ({
-        top: 100
-      }))
-    };
     wrapper.vm.getScrollTop();
     expect(wrapper.vm.$data.scrollTop).toEqual(40);
   });
@@ -82,5 +90,26 @@ describe('Header', () => {
     wrapper.vm.scrollHandlerGodeeCase();
     expect(spySetStylesForHeaderInGoDeeCase).toHaveBeenCalled();
     spySetStylesForHeaderInGoDeeCase.mockReset();
+  });
+
+  test('getHtmlElements method set html items in data instances', () => {
+    wrapper.vm.getHtmlElements();
+    expect(wrapper.vm.$data.caseHeader.getAttribute('id')).toEqual('case-header');
+    expect(wrapper.vm.$data.headerWhiteLogoText.getAttribute('id')).toEqual('header-logo-text');
+  });
+
+  test('addEventListenersForGoDeeCase method set html items in data instances', () => { // Не нашел способа как протестировать event listener поэтому пока-что тестирую только получение элементов
+    wrapper.vm.addEventListenersForGoDeeCase();
+    expect(wrapper.vm.$data.caseGoDeeFirstSection.getAttribute('id')).toEqual('case-first-section');
+    expect(wrapper.vm.$data.caseGoDeeMainContainer.getAttribute('id')).toEqual('case-main-container');
+  });
+
+  test('setWidthForHeader calculate window width and set new styles for header elements', () => {
+    wrapper.vm.$data.caseGoDeeMainContainer = {
+      offsetWidth: 1280,
+      clientWidth: 1260
+    };
+    wrapper.vm.setWidthForHeader();
+    expect(wrapper.vm.$refs.header.style.width && wrapper.vm.$refs.overlay.style.width).toEqual('calc(100% - 20px)');
   });
 });

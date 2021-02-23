@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper" id="header">
-    <div class="overlay" v-if="headerTransparent" ref="overlay"></div>
-    <header ref="header" class="header" :class="{'header-transparent': headerTransparent}">
+    <div class="overlay" v-if="headerIsTransparent" ref="overlay"></div>
+    <header ref="header" class="header" :class="{'header-transparent': headerIsTransparent}">
       <div class="container" ref="headerContainer">
         <div class="row">
           <div class="header__left-nav_bar col-xl-6 col-lg-7">
@@ -51,7 +51,7 @@ export default {
       buttonInnerText: 'Contact me',
       selectedPhone: null,
       modalWindowName: 'contact-me-modal',
-      headerTransparent: false,
+      headerIsTransparent: false,
       scrollTop: null,
       isCasePage: false,
       caseMoreButton: null,
@@ -62,7 +62,7 @@ export default {
     };
   },
   created() {
-    this.setHeaderState();
+    this.setDefaultStateForHeader();
   },
   mounted() {
     if(this.isCasePage) {
@@ -84,16 +84,16 @@ export default {
   },
   watch: {
     '$route'() {
-      this.setHeaderState();
+      this.setDefaultStateForHeader();
     }
   },
   methods: {
-    setHeaderState() { 
+    setDefaultStateForHeader() {
       if (this.$nuxt.$route.path.includes('/case-studies/')) {
-        this.headerTransparent = true;
+        this.headerIsTransparent = true;
         this.isCasePage = true;
       } else {
-        this.headerTransparent = false;
+        this.headerIsTransparent = false;
         this.isCasePage = false;
       }
     },
@@ -109,7 +109,7 @@ export default {
     scrollHandlerGodeeCase() {
       this.setStylesForHeaderInGoDeeCase();
     },
-    setStylesForHeader() { // От этой логики в скором времени можно будет избавиться, сейчас это костыль, так как не все хедеры в кейсах переверстаны под новый формат
+    setStylesForHeader() {
       if(this.isCasePage && window.innerWidth > 991) {
         const opacity = 1.6 - (this.$refs.overlay.offsetHeight - (window.scrollY - this.caseHeader.getBoundingClientRect().height + this.caseMoreButton.getBoundingClientRect().height) - this.$refs.headerContainer.offsetHeight) / this.$refs.overlay.offsetHeight;
         const opacityTextLogo = 0.9 - (this.$refs.overlay.offsetHeight - this.caseMoreButton.getBoundingClientRect().top + this.caseMoreButton.getBoundingClientRect().height) / this.$refs.overlay.offsetHeight;

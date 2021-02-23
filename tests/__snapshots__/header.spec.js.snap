@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders correctly 1`] = `
+<div
+  class="header-wrapper"
+  id="header"
+>
+  <!---->
+   
+  <header
+    class="header"
+  >
+    <div
+      class="container"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="header__left-nav_bar col-xl-6 col-lg-7"
+        >
+          <router-link-stub
+            class="header__logo-icon"
+            to="/"
+          >
+            <headerlogo-stub
+              class="header__header-logo"
+            />
+          </router-link-stub>
+           
+          <nav
+            class="header__header-routes_links"
+          >
+            <router-link-stub
+              class="header__navigation-link"
+              exact=""
+              to="/"
+            >
+              About
+            </router-link-stub>
+             
+            <router-link-stub
+              class="header__navigation-link"
+              to="/services"
+            >
+              Services
+            </router-link-stub>
+             
+            <router-link-stub
+              class="header__navigation-link"
+              to="/projects"
+            >
+              Projects
+            </router-link-stub>
+             
+            <router-link-stub
+              class="header__navigation-link"
+              to="/careers"
+            >
+              Careers
+            </router-link-stub>
+             
+            <router-link-stub
+              class="header__navigation-link header__navigation-link-blog"
+              to="/blog"
+            >
+              Blog
+            </router-link-stub>
+          </nav>
+        </div>
+         
+        <div
+          class="header__right-content col-xl-6 col-lg-5"
+        >
+          <div
+            class="header__phone-wrapper"
+          >
+            <span
+              class="header__phone-flag"
+            />
+             
+            <a
+              class="header__header-phone"
+              href="tel:+442039848555"
+            >
+              +44 20 3984 8555
+            </a>
+          </div>
+           
+          <button
+            class="ui-button-modal-trigger ui-button-modal-trigger--red"
+          >
+            
+  Contact me
+
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+   
+  <mobileheader-stub />
+</div>
+`;

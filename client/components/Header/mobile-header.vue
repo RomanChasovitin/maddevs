@@ -101,11 +101,12 @@ export default {
       ],
       headerTransparent: false,
       isCasePage: false,
-      caseMoreButton: null,
+      readOurCaseButton: null,
       overlay: null,
       scrollTop: null,
       logoText: null,
-      caseFirstSection: null
+      caseGoDeeFirstSection: null,
+      caseGoDeeMainContainer: null
     };
   },
   watch: {
@@ -125,13 +126,13 @@ export default {
       this.logoText = document.getElementsByClassName('header-logo-text')[1]; // Logo from mobile header
 
       if (!this.$nuxt.$route.path.includes('/godee')) {
-        this.caseMoreButton = document.getElementsByClassName('case_more__button')[0];
+        this.readOurCaseButton = document.getElementById('read-our-case-btn');
         this.getScrollTop();
         window.addEventListener('scroll', () => this.scrollHandler());
       } else if (this.$nuxt.$route.path.includes('/godee')) {
-        this.caseFirstSection = document.getElementsByClassName('case_first-section')[0];
-        this.caseRoot = document.getElementsByClassName('main')[0];
-        this.caseRoot.addEventListener('scroll', () => this.scrollHandlerGodeeCase());
+        this.caseGoDeeFirstSection = document.getElementById('case-first-section');
+        this.caseGoDeeMainContainer = document.getElementById('case-main-container');
+        this.caseGoDeeMainContainer.addEventListener('scroll', () => this.scrollHandlerGodeeCase());
       }
     }
   },
@@ -157,7 +158,7 @@ export default {
       return Math.abs(window.innerHeight - window.outerHeight);
     },
     getScrollTop() {
-      this.scrollTop = this.caseMoreButton.getBoundingClientRect().top;
+      this.scrollTop = this.readOurCaseButton.getBoundingClientRect().top;
     },
     scrollHandler() {
       this.setStylesForHeader();
@@ -176,13 +177,13 @@ export default {
     },
     setStylesForHeader() {
       if (this.isCasePage) {
-        const opacityTextLogo = 1 - (this.overlay.offsetHeight - this.caseMoreButton.getBoundingClientRect().top + this.caseMoreButton.getBoundingClientRect().height) / this.overlay.offsetHeight;
+        const opacityTextLogo = 1 - (this.overlay.offsetHeight - this.readOurCaseButton.getBoundingClientRect().top + this.readOurCaseButton.getBoundingClientRect().height) / this.overlay.offsetHeight;
         this.logoText.style.opacity = opacityTextLogo;
       }
     },
     setStylesForHeaderInGoDeeCase() {
       if (this.isCasePage) {
-        const opacityTextLogo = 0 - (this.overlay.offsetHeight - this.caseFirstSection.getBoundingClientRect().top) / this.overlay.offsetHeight;
+        const opacityTextLogo = 0 - (this.overlay.offsetHeight - this.caseGoDeeFirstSection.getBoundingClientRect().top) / this.overlay.offsetHeight;
         this.logoText.style.opacity = opacityTextLogo;
       }
     }

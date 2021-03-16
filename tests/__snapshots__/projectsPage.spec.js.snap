@@ -42,7 +42,7 @@ exports[`Projects page renders correctly 1`] = `
         >
           <router-link-stub
             class="navigation-item"
-            to="services/#remote-tech-staff"
+            to="services#remote-tech-staff"
           >
             Remote Tech 
             <span
@@ -54,21 +54,21 @@ exports[`Projects page renders correctly 1`] = `
            
           <router-link-stub
             class="navigation-item"
-            to="services/#software-development"
+            to="services#software-development"
           >
             Software Development
           </router-link-stub>
            
           <router-link-stub
             class="navigation-item"
-            to="services/#infrastructure-optimisation"
+            to="services#infrastructure-optimisation"
           >
             Infrastructure Optimization
           </router-link-stub>
            
           <router-link-stub
             class="navigation-item"
-            to="services/#it-consulting"
+            to="services#it-consulting"
           >
             IT Consulting
           </router-link-stub>

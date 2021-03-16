@@ -5,32 +5,24 @@
       <div class="container" ref="headerContainer">
         <div class="row">
           <div class="header__left-nav_bar col-xl-6 col-lg-7">
-            <router-link :to="`/`" class="header__logo-icon">
+            <nuxt-link to="/" class="header__logo-icon">
               <headerLogo
                 class="header__header-logo"
                 :showLogoTextProps="showLogoText"
                 :isCasePageProps="isCasePage"
                 :isActiveMobileMenuProps="isActiveMobileMenu"
               />
-            </router-link>
+            </nuxt-link>
             <nav class="header__header-routes_links">
-              <router-link @click.native="goToTopPage" exact to="/" class="header__navigation-link">About</router-link>
-              <router-link @click.native="goToTopPage" to="/services/" class="header__navigation-link">Services</router-link>
-              <router-link @click.native="goToTopPage" to="/projects/" class="header__navigation-link">Projects</router-link>
-              <router-link @click.native="goToTopPage" to="/careers/" class="header__navigation-link">Careers</router-link>
-              <router-link @click.native="goToTopPage" to="/blog/" class="header__navigation-link header__navigation-link-blog">Blog</router-link>
+              <nuxt-link @click.native="goToTopPage" exact to="/" class="header__navigation-link">About</nuxt-link>
+              <nuxt-link @click.native="goToTopPage" to="/services/" class="header__navigation-link">Services</nuxt-link>
+              <nuxt-link @click.native="goToTopPage" to="/projects/" class="header__navigation-link">Projects</nuxt-link>
+              <nuxt-link @click.native="goToTopPage" to="/careers/" class="header__navigation-link">Careers</nuxt-link>
+              <nuxt-link @click.native="goToTopPage" to="/blog/" class="header__navigation-link header__navigation-link-blog">Blog</nuxt-link>
             </nav>
-            <!-- Burget btn -->
-            <div class="header__burger" @click="toggleMobileMenu">
-              <svg v-if="isActiveMobileMenu" class="header__burger--close" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.807613 19.1924L19.1924 0.807623M19.1914 19.1924L0.806641 0.807617" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <svg v-else class="header__burger--open" width="30" height="10" viewBox="0 0 30 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 0H30V1H0V0Z" fill="#F5F7F9"/>
-                <path d="M0 9H30V10H0V9Z" fill="#F5F7F9"/>
-              </svg>
-            </div>
-            <!-- END Burget btn -->
+            <!-- Burger btn -->
+            <UIBurger @click="toggleMobileMenu" :opened="isActiveMobileMenu" />
+            <!-- END Burger btn -->
           </div>
           <div class="header__right-content col-xl-6 col-lg-5">
             <div class="header__phone-wrapper">
@@ -69,19 +61,23 @@
 </template>
 
 <script>
+import scrollBar from '@/mixins/scrollBar';
 import UIButtonModalTrigger from '@/components/ui/UIButtonModalTrigger';
 import mobileHeader from '@/components/Header/mobile-header';
 import headerLogo from '@/components/svg/headerLogo';
 import Modal from '@/containers/Modal';
+import UIBurger from '@/components/ui/UIBurger.vue';
 
 export default {
   name: 'main-header',
+  mixins: [scrollBar],
   components: {
-    UIButtonModalTrigger,
     contactMeModal: () => import('@/components/Modals/contact-me-modal'),
+    UIButtonModalTrigger,
     mobileHeader,
     headerLogo,
-    Modal
+    Modal,
+    UIBurger
   },
   data() {
     return {
@@ -181,7 +177,7 @@ export default {
     toggleMobileMenu() {
       this.isActiveMobileMenu = !this.isActiveMobileMenu;
       if(this.isActiveMobileMenu) {
-        this.disableScrollOnBody();
+        // this.disableScrollOnBody();
         this.$nextTick(() => {
           this.mobileHeaderScrollbar = document.getElementById('mobile-header-scrollbar');
           this.mobileHeaderScrollbar.addEventListener('scroll', this.mobileMenuScrollHandler);
@@ -197,14 +193,6 @@ export default {
       } else {
         this.showLogoText = true;
       }
-    },
-    enableScrollOnBody() {
-      document.body.classList.remove('scrollDisabled');
-      document.documentElement.classList.remove('scrollDisabled');
-    },
-    disableScrollOnBody() {
-      document.body.classList.add('scrollDisabled');
-      document.documentElement.classList.add('scrollDisabled');
     },
     removeEventListeners() {
       if (this.$nuxt.$route.path.includes('/godee')) {
@@ -226,21 +214,6 @@ export default {
     position: fixed;
     z-index: 3;
     background-color: $bgcolor--black;
-
-    &__burger {
-      display: none;
-      position: fixed;
-      top: 0;
-      right: 25px;
-      padding: 11px 14px;
-
-      &--close {
-        width: 22px;
-        height: 22px;
-        margin-top: 3px;
-        margin-right: 3px;
-      }
-    }
 
     &__header-logo {
       width: 34px;
@@ -375,10 +348,6 @@ export default {
     .header {
       max-height: 26px;
 
-      &__burger {
-        display: block;
-      }
-
       &__left-nav_bar {
         margin-top: 0;
       }
@@ -402,10 +371,6 @@ export default {
 
   @media screen and (max-width: 767px) {
     .header {
-      &__burger {
-        right: 10px;
-      }
-
       &__header-logo {
         margin-left: -40px;
       }

